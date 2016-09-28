@@ -54,5 +54,4 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   resources :chat_rooms
-  mount PlayAuth::Engine => '/auth', :as => :auth
 end

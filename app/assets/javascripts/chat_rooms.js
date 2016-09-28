@@ -1,16 +1,18 @@
 jQuery(document).ready(function(){
-  jQuery(".test-user .user-name").click(function(){
+  jQuery(".test-user .user-login").click(function(){
     var token = jQuery(this).val();
     var userId = jQuery(this).attr("id");
-    console.log(token);
-    console.log(userId);
+    var user_name = jQuery(this).attr("username");
+    console.log(user_name);
+    var private_targetId = "";
+    var chat_room_targetId = "";
     // 初始化。
     RongIMClient.init("z3v5yqkbvvpl0");
 
     // 连接融云服务器。
     RongIMClient.connect(token, {
       onSuccess: function(userId) {
-        console.log("Login successfully." + userId);
+        console.log(user_name + " 已登录");
       },
       onError: function (errorCode,message) {
         var info = '';
@@ -53,8 +55,8 @@ jQuery(document).ready(function(){
             break;
           //正在链接
           case RongIMLib.ConnectionStatus.CONNECTING:
-            console.log('正在链接');
             break;
+            console.log('正在链接');
           //重新链接
           case RongIMLib.ConnectionStatus.DISCONNECTED:
             console.log('断开连接');
@@ -81,7 +83,7 @@ jQuery(document).ready(function(){
           case RongIMClient.MessageType.TextMessage:
             // 发送的消息内容将会被打印
             console.log(message);
-            console.log(message.content.content);
+            console.log(message.sentTime,"收到消息", message.content.content);
             break;
           case RongIMClient.MessageType.VoiceMessage:
             // 对声音进行预加载                
@@ -130,11 +132,32 @@ jQuery(document).ready(function(){
   });
 
   //获取会话列表
-  jQuery(".get-chat-list").click(function(){
+  jQuery(".chat-room .get-chat-room-list").click(function(){
     RongIMClient.getInstance().getConversationList({
       onSuccess: function(list) {
-        console.log(list);
         // list => 会话列表集合。
+        for(item in list){
+          if(list[item].conversationType == 2){
+            var chatroom_id = list[item].targetId;
+            RongIMClient.getInstance().getDiscussion(chatroom_id,{
+              onSuccess:function(discussion){
+                var html =  "<div>" +
+                              "<input class='chat-room-name' name='radiobutton' type='radio' value='"+ discussion.id +"'>" +
+                              discussion.name +
+                              "</input>" +
+                            "</div>"
+                jQuery(".chat-room-list").append(html);
+
+                jQuery(".chat-room .chat-room-list .chat-room-name").click(function(){
+                  chat_room_targetId = jQuery(this).val();
+                })
+              },
+              onError:function(error){
+                // error => 获取讨论组失败错误码。
+              }
+            });
+          }
+        }
       },
       onError: function(error) {
         console.log(error);
@@ -142,9 +165,9 @@ jQuery(document).ready(function(){
       }
     },null);
   });
+  
 
   //发送消息（单聊）
-  var private_targetId = "";
   jQuery(".private .user-name").click(function(){
     private_targetId = jQuery(this).attr("id");
     console.log(private_targetId);
@@ -190,10 +213,9 @@ jQuery(document).ready(function(){
   });
 
   //创建讨论组
-  var chat_room_targetId = "";
   //获取讨论组成员Id和讨论组名称
   var userIds = [];
-  jQuery(".check-box").click(function(){
+  jQuery(".chat-room .check-box").click(function(){
     var token = jQuery(this).val();
     var userId = jQuery(this).attr("id");
     userIds.push(userId);
@@ -203,17 +225,7 @@ jQuery(document).ready(function(){
     var discussionName = jQuery(".discussion-name").val();
     RongIMClient.getInstance().createDiscussion(discussionName,userIds,{
       onSuccess:function(discussionId){
-        chat_room_targetId = discussionId;
-        console.log(discussionId);
-        RongIMClient.getInstance().getDiscussion(discussionId,{
-            onSuccess:function(discussion){
-              console.log(discussion);
-                // discussion => 讨论组信息。
-            },
-            onError:function(error){
-                // error => 获取讨论组失败错误码。
-            }
-        });
+        console.log("讨论组创建成功",discussionId);
         // discussionId => 讨论组 Id。
       },
       onError:function(error){
@@ -264,5 +276,44 @@ jQuery(document).ready(function(){
       }
     });
   });
-  
+
+  //获取讨论组成员列表
+  jQuery(".chat-room .get-user-list").click(function(){
+    RongIMClient.getInstance().getDiscussion(chat_room_targetId,{
+      onSuccess:function(discussion){
+        // discussion => 讨论组信息。
+        console.log(discussion.memberIdList);  
+      },
+      onError:function(error){
+        // error => 获取讨论组失败错误码。
+      }
+    });
+  });
+
+  //退出讨论组
+  jQuery(".chat-room .quit-chat-room").click(function(){
+    RongIMClient.getInstance().quitDiscussion(chat_room_targetId,{
+      onSuccess:function(){
+        console.log("退出讨论组成功");
+        // 退出讨论组成功。
+      },
+      onError:function(error){
+        // error => 退出讨论组失败错误码。
+      }
+    });
+  });
+
+  //邀请其他用户
+  jQuery(".chat-room .invite-others").click(function(){
+    RongIMClient.getInstance().addMemberToDiscussion(chat_room_targetId,userIds,{
+      onSuccess:function(){
+        console.log("邀请成功")
+          // 邀请成功。
+      },
+      onError:function(error){
+          // error => 邀请失败错误码。
+      }
+    });
+  });
 });
+
