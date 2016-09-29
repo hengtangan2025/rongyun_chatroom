@@ -1,4 +1,5 @@
 jQuery(document).ready(function(){
+  var app_key = jQuery(".test-user").attr("app_key");
   jQuery(".test-user .user-login").click(function(){
     var token = jQuery(this).val();
     var userId = jQuery(this).attr("id");
@@ -6,7 +7,7 @@ jQuery(document).ready(function(){
     var private_targetId = "";
     var chat_room_targetId = "";
     // 初始化。
-    RongIMClient.init("z3v5yqkbvvpl0");
+    RongIMClient.init(app_key);
 
     // 连接融云服务器。
     RongIMClient.connect(token, {
@@ -35,7 +36,7 @@ jQuery(document).ready(function(){
             info = '不在聊天室中';
             break;
         default :
-            info = x;
+            info = "请先进行登录";
             break;
         }
           console.log('发送失败:' + info);

@@ -1,5 +1,5 @@
-.test-user
-  %h1 选择测试用户
+.test-user{:app_key => ENV["RONG_YUN_APP_KEY"]}
+  %h1 选择测试用户进行登录
   %form.form1
   - @user.each do |user|
     %input.user-login{:type => "radio", :name => "radiobutton", :value => user.im_token, :id => user.id, :username => user.name}= user.name

@@ -47,6 +47,7 @@ end
 
 gem 'haml'
 gem 'mongoid'
+gem "figaro", "~> 1.1.1"
 
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'simple_form' 
