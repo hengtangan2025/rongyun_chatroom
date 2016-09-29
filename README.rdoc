@@ -1,28 +1,42 @@
-== README
+访问地址：
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+http://ry.im.teamkn.com/chat_rooms
 
-Things you may want to cover:
+--------------------------------
 
-* Ruby version
+演示说明：
 
-* System dependencies
+访问演示页面
 
-* Configuration
+http://ry.im.teamkn.com/chat_rooms
 
-* Database creation
+从测试用户列表中点击选择一个用户进行登录。
 
-* Database initialization
+打开浏览器控制台，会显示
+    连接成功 表示初始化完成
+    开发者X已登录 表示用户已经登陆成功
 
-* How to run the test suite
+--------------------------------
 
-* Services (job queues, cache servers, search engines, etc.)
+在浏览器中打开一个新的窗口，访问演示页面
 
-* Deployment instructions
+http://ry.im.teamkn.com/chat_rooms
 
-* ...
+从测试用户列表中点击选择另一个用户进行登录。
 
+从聊天对象列表中点击选定要发送消息的对象，再在输入框里输入要发送的内容，点击发送。
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+对方浏览器的控制台会显示 发送的消息，如果在他没有登录时发送了消息，对方会在登录的一瞬间收到。
+
+-----------------------------------
+
+在用户选择列表里勾选用户，在用户列表下方的输入框里输入要新建的讨论组的名称，点击“创建讨论组”按钮就可以创建一个新的讨论组并邀请被勾选的用户加入讨论组。（创建成功后，控制台会显示新建讨论组的ID）
+
+点击“获取讨论组列表”就会显示用户所在讨论组的列表。
+
+在用户所在讨论组中点击选择一个讨论组后在页面底部的输入框里输入要发送的内容，点击发送后就可以将消息发送到讨论组了。
+
+用户所在讨论组列表下方还有“退出讨论组”按钮、“获取成员列表”按钮、“邀请其他用户”按钮。
+点击选定一个讨论组后，再点击“退出讨论组”按钮，就会退出这个讨论组；
+点击选定一个讨论组后，再点击“获取成员列表”按钮，控制台会显示这个讨论组的所用成员的id的数组；
+点击选定一个讨论组后，再勾选要邀请加入讨论组的用户，再点击“邀请其他用户”按钮，就可以邀请已勾选的用户加入这个讨论组。
