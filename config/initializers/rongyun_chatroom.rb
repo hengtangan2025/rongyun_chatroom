@@ -14,6 +14,11 @@ PlayAuth::User.class_eval do |variable|
   
   def get_im_token
     #发送http请求获得token并存入im_token字段中
+    app_secret = "AjJmAbrO35"
+    nonce = rand(99999)
+    timestamp = Time.now
+    array = [app_secret,nonce,timestamp]
+    signature = Digest::SHA1.hexdigest(array.join)
     params = {
       :userId => self.id,
       :name => self.name,
