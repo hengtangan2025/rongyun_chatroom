@@ -3,7 +3,6 @@ jQuery(document).ready(function(){
     var token = jQuery(this).val();
     var userId = jQuery(this).attr("id");
     var user_name = jQuery(this).attr("username");
-    console.log(user_name);
     var private_targetId = "";
     var chat_room_targetId = "";
     // 初始化。
@@ -216,10 +215,8 @@ jQuery(document).ready(function(){
   //获取讨论组成员Id和讨论组名称
   var userIds = [];
   jQuery(".chat-room .check-box").click(function(){
-    var token = jQuery(this).val();
     var userId = jQuery(this).attr("id");
     userIds.push(userId);
-    console.log(userIds);
   });
   jQuery(".create_chatroom").click(function(){
     var discussionName = jQuery(".discussion-name").val();
@@ -304,8 +301,13 @@ jQuery(document).ready(function(){
   });
 
   //邀请其他用户
+  var add_member_ids = [];
+  jQuery(".chat-room .add-member").click(function(){
+    var userId = jQuery(this).attr("id");
+    add_member_ids.push(userId);
+  });
   jQuery(".chat-room .invite-others").click(function(){
-    RongIMClient.getInstance().addMemberToDiscussion(chat_room_targetId,userIds,{
+    RongIMClient.getInstance().addMemberToDiscussion(chat_room_targetId,add_member_ids,{
       onSuccess:function(){
         console.log("邀请成功")
           // 邀请成功。

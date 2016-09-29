@@ -4,9 +4,8 @@
   - @user.each do |user|
     %input.user-login{:type => "radio", :name => "radiobutton", :value => user.im_token, :id => user.id, :username => user.name}= user.name
 .private
-  %h1 单聊
-  %h2 选择聊天对象
-  %form.form3
+  %h1 单聊 
+  %form.form3 选择聊天对象
   - @user.each do |user|
     %input.user-name{:type => "radio", :name => "radiobutton", :id => user.id}= user.name
   %input.message-content
@@ -14,8 +13,7 @@
   
 .chat-room
   %h1 群聊
-  %h2 选择用户创建讨论组
-  %form.form2
+  %form.form2 选择用户创建讨论组
   - @user.each do |user|
     %input.check-box{:type => "checkbox", :id => user.id}= user.name
   .chatroom
@@ -27,6 +25,9 @@
   .chat-room-operations
     %button.quit-chat-room 退出讨论组
     %button.get-user-list 获取成员列表
+    %form.form2 选择要邀请的用户
+    - @user.each do |user|
+      %input.add-member{:type => "checkbox", :id => user.id}= user.name
     %button.invite-others 邀请其他用户
   %input.message
-  %button.send-chat-room-message 发送
+  %button.send-chat-room-message 发送（发送消息到讨论组）
