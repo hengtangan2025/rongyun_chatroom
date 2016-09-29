@@ -36,6 +36,7 @@ PlayAuth::User.class_eval do |variable|
       req['Content-Length'] = 78 
       req.set_form_data(params)
       self.im_token = JSON.parse(http.request(req).body)['token']
+      self.save
     end
   end
 end
