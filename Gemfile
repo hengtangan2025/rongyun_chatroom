@@ -46,7 +46,7 @@ group :development do
 end
 
 gem 'haml'
-gem 'mongoid'
+gem 'mongoid', '5.1.3'
 gem "figaro", "~> 1.1.1"
 
 gem 'bootstrap-sass', '~> 3.3.5'
